@@ -14,7 +14,6 @@ import EditTaskForm  from "../EditTaskForm";
 
 import {Task} from "@/types";
 
-
 const EditTaskDialog = (props:Task) => {
     const [open, setOpen] = useState(false);
 
@@ -29,7 +28,7 @@ const EditTaskDialog = (props:Task) => {
             <DialogHeader>
                 <DialogTitle>Edit Task</DialogTitle>
             </DialogHeader>
-            <EditTaskForm  {...props} handleDialogClose={setOpen} />
+            <EditTaskForm task={props} handleDialogClose={setOpen} />
         </DialogContent>
     </Dialog>;
 }

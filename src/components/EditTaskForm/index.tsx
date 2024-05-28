@@ -1,6 +1,6 @@
 "use client"
 
-import { useTransition } from "react";
+import {Dispatch, SetStateAction, FC, useTransition} from "react";
 import editTask from "@/actions/editTask";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,8 +38,13 @@ import {
 
 import {Task} from "@/types";
 
-const EditTaskForm = ({handleDialogClose, ...taskProps}:{ handleDialogClose:()=> void, taskProps:Task}) => {
-    const {title, description, priority, deadline, status, id} = taskProps;
+interface EditTaskFormProps {
+    handleDialogClose: Dispatch<SetStateAction<boolean>>;
+    task: Task;
+}
+
+const EditTaskForm:FC<EditTaskFormProps> = ({handleDialogClose, task}) => {
+    const {title, description, priority, deadline, status, id} = task;
 
     const form = useForm({
         resolver: zodResolver(formSchema),

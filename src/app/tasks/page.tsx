@@ -6,29 +6,27 @@ import TaskList from "@/components/TaskList";
 import LogoutButton from "@/components/Buttons/LogoutButton";
 import { redirect } from 'next/navigation'
 
-import {Task} from "@/types";
-
-const supabase = createClient();
-const getData = async () => {
-    const res = await supabase.from("tasks").select("id, title, description, deadline, priority, status").order('id')
-    return res;
-}
-
-const getDataFilterByStatus = async (status:string) => {
-    let res = null;
-    switch(status) {
-        case 'complete':
-            res = await supabase.from("tasks").select("id, title, description, deadline, priority, status").eq('status', true)
-            break;
-        case 'uncomplete':
-            res = res = await supabase.from("tasks").select("id, title, description, deadline, priority, status").eq('status', false)
-            break;
-    }
-    return res;
-}
-
 export default async function Home({searchParams}:{searchParams:{[key:string]:string}}) {
+    const supabase = createClient();
     const { data:authData, error } = await supabase.auth.getUser()
+    const getData = async () => {
+        const res = await supabase.from("tasks").select("id, title, description, deadline, priority, status").order('id')
+        return res;
+    }
+
+    const getDataFilterByStatus = async (status:string) => {
+        let res = null;
+        switch(status) {
+            case 'complete':
+                res = await supabase.from("tasks").select("id, title, description, deadline, priority, status").eq('status', true)
+                break;
+            case 'uncomplete':
+                res = res = await supabase.from("tasks").select("id, title, description, deadline, priority, status").eq('status', false)
+                break;
+        }
+        return res;
+    }
+
     if (error || !authData?.user) {
         redirect('/login')
     }
